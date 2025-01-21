@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}To-Do List{% endblock %}
+
+{% block content %}
+<h1>Your To-Do List</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert">{{ message }}</div>
+    {% endfor %}
+{% endwith %}
+<form method="POST" class="todo-form">
+    <label for="task-input" class="task-label">Enter the task:</label>
+    <input type="text" id="task-input" name="content" placeholder="Your task here..." required>
+    <input type="submit" value="Add Task">
+</form>
+<div class="todo-list">
+    {% if todos %}
+        <ul>
+            {% for todo in todos %}
+                <li>{{ todo.content }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-tasks">You have no tasks yet. Start by adding one!</p>
+    {% endif %}
+</div>
+<!-- Logout Button -->
+<form action="{{ url_for('main.logout') }}" method="GET">
+    <button type="submit" class="logout-btn">Logout</button>
+</form>
+{% endblock %}
